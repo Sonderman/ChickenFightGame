@@ -1,0 +1,173 @@
+fileFormatVersion: 2
+guid: f44df3c0c4f60429fa34c91f08230a4f
+ModelImporter:
+  serializedVersion: 22102
+  internalIDToNameTable:
+  - first:
+      74: -552093313602628797
+    second: Mage_Armature_Asa|Mage_Asa_Attack_03
+  - first:
+      74: 4467257847538079975
+    second: Mage_Armature_Asa|Mage_Asa_Attack_04
+  - first:
+      74: 2566353683058352794
+    second: Mage_Armature_Asa|Mage_Asa_Attack_05
+  - first:
+      74: -1617355873405500551
+    second: Mage_Armature_Asa|Mage_Asa_Back_Flip
+  - first:
+      74: 112913191298466664
+    second: Mage_Armature_Asa|Mage_Asa_Hurricane_Kick
+  - first:
+      74: -2655381710749261948
+    second: Mage_Armature_Asa|Mage_Asa_Jump
+  - first:
+      74: -8564774091987540055
+    second: Mage_Armature_Asa|Mage_Asa_React
+  - first:
+      74: -3708291191091812489
+    second: Mage_Armature_Asa|Mage_Asa_Run
+  - first:
+      74: -2718049954984569430
+    second: Mage_Armature_Asa|Mage_Asa_Suprise_Uppercut
+  - first:
+      74: 4122666895493308981
+    second: Mage_Armature_Asa|Mage_Asa_Walking_Backwards
+  - first:
+      74: 25547267936498368
+    second: "Mage_Armature_Asa|Mage_Asa_\u0130dle"
+  - first:
+      74: -5012708692668497227
+    second: Mage_Armature_Asa|Mage_Book_Attack_03
+  - first:
+      74: -1606430663947953890
+    second: Mage_Armature_Asa|Mage_Book_Attack_04
+  - first:
+      74: 6641893468537700689
+    second: Mage_Armature_Asa|Mage_Book_Attack_05
+  - first:
+      74: -2406636140368649649
+    second: Mage_Armature_Asa|Mage_Book_Back_Flip
+  - first:
+      74: -7438571938623118421
+    second: Mage_Armature_Asa|Mage_Book_Hurricane_Kick
+  - first:
+      74: 6740287926045746455
+    second: Mage_Armature_Asa|Mage_Book_Jump
+  - first:
+      74: 8782722453588085814
+    second: Mage_Armature_Asa|Mage_Book_React
+  - first:
+      74: -9005697292115809744
+    second: Mage_Armature_Asa|Mage_Book_Run
+  - first:
+      74: -1522817505041077087
+    second: Mage_Armature_Asa|Mage_Book_Suprise_Uppercut
+  - first:
+      74: 1247446955667205844
+    second: Mage_Armature_Asa|Mage_Book_Walking_Backwards
+  - first:
+      74: -3989830385751984839
+    second: "Mage_Armature_Asa|Mage_Book_\u0130dle"
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
