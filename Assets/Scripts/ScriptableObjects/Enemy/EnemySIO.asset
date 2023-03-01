@@ -9,8 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3053c32ad6c0f754e92459a0c0bed706, type: 3}
-  m_Name: PlayerSIO
+  m_Script: {fileID: 11500000, guid: 401e0cc6b8cd4d64aa27bc9f3fcac1b0, type: 3}
+  m_Name: EnemySIO
   m_EditorClassIdentifier: 
-  health: 100
-  speed: 2.5
+  maxHealth: 100
+  maxSpeed: 2
+  attackSpeed: 50
+  visionRange: 10
+  secondsForIdleToPatrolling: 5
+  aiNavigationRange: {x: 40, y: 1, z: 40}

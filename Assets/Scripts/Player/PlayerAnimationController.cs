@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -6,6 +7,7 @@ namespace Player
     {
         private Animator _animator;
         private PlayerMovementController _pmovcon;
+        private bool _attackLeft;
 
         void Start()
         {
@@ -21,6 +23,28 @@ namespace Player
             }
             else
                 _animator.SetBool("isRunning", false);
+        }
+
+        public void OnMouseClick(InputAction.CallbackContext context)
+        {
+            
+            if (context.performed)
+            {
+                //Disables player movement.
+                _pmovcon.EnableMovement = false;
+                TriggerAttack();
+                _attackLeft = !_attackLeft;
+            }
+        }
+        //Enables movement when attack animation finishes
+        public void OnAttackFinished()
+        {
+            _pmovcon.EnableMovement = true;
+        }
+
+        private void TriggerAttack()
+        {
+            _animator.SetTrigger(_attackLeft ? "PunchL" : "PunchR");
         }
     }
 }

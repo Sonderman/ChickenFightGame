@@ -10,6 +10,7 @@ namespace Player
         [SerializeField] public Transform mainCamTransform;
         private Vector3 _movementInput;
         internal bool IsMoving;
+        internal bool EnableMovement;
 
         //private Keyboard _keyboard = Keyboard.current;
         private Rigidbody _rigidbody;
@@ -18,10 +19,12 @@ namespace Player
         void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
+            EnableMovement = true;
         }
 
         private void Update()
         {
+            //Checks movement for movement animation
             if (_movementInput.magnitude >= 1f)
             {
                 IsMoving = true;
@@ -42,10 +45,14 @@ namespace Player
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-                _rigidbody.MovePosition(moveDir.normalized * (playerSio.speed) / 10 + transform.position);
+                if (EnableMovement)
+                {
+                    _rigidbody.MovePosition(moveDir.normalized * (playerSio.speed) / 10 + transform.position);
+                }
             }
         }
 
+        //Reads Inputs
         public void OnMove(InputAction.CallbackContext context)
         {
             Vector3 move = new Vector3(context.ReadValue<Vector2>().x, 0f, context.ReadValue<Vector2>().y);
