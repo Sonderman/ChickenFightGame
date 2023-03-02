@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 982379e527d34f2fa40c13771dfbd0e5, type: 3}
-  m_Name: GlobalSettingsSIO
+  m_Name: GlobalSettingsSO
   m_EditorClassIdentifier: 
-  enemyAmount: 1
+  enemyAmount: 5
   musicVolume: 50

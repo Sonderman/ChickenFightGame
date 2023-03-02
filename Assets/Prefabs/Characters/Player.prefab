@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: -6455583547175760121}
   - component: {fileID: -4167506059222183087}
   - component: {fileID: -496451036363245463}
+  - component: {fileID: 6026087276069628003}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -172,6 +173,7 @@ Transform:
   - {fileID: 8183365320720699956}
   - {fileID: 6831818320896982429}
   - {fileID: 3697983233157787740}
+  - {fileID: 8331227551882019964}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -210,7 +212,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &4419446139113198233
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -283,6 +285,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1855511780884735416}
+        m_TargetAssemblyTypeName: Player.AttackTrigger, Assembly-CSharp
+        m_MethodName: OnMouseClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f314dab8-144e-4de7-8551-cbd4b95e4ec6
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
@@ -342,7 +356,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f67340c3c255cfd41afb1afcad73f81b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSio: {fileID: 11400000, guid: 9a097d6f8da4cc244948acb8eebf1fc1, type: 2}
+  playerSo: {fileID: 11400000, guid: 9a097d6f8da4cc244948acb8eebf1fc1, type: 2}
+  gameManagerSo: {fileID: 11400000, guid: 23cbf94ba0410cd4d8db3c06220c4a3f, type: 2}
   mainCamTransform: {fileID: 0}
 --- !u!114 &-496451036363245463
 MonoBehaviour:
@@ -356,6 +371,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2eec5bca2ab94647a277338e4b6a4fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6026087276069628003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861390657397966771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1fe058dcd9e2124cab987fb31da38be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSo: {fileID: 11400000, guid: 9a097d6f8da4cc244948acb8eebf1fc1, type: 2}
+  gameManagerSo: {fileID: 11400000, guid: 23cbf94ba0410cd4d8db3c06220c4a3f, type: 2}
 --- !u!1 &1878165685843928296
 GameObject:
   m_ObjectHideFlags: 0
@@ -1531,6 +1560,65 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.002757445, y: -0.047883585, z: -0.024446964}
     m_Extent: {x: 0.4443431, y: 0.40333563, z: 0.5077198}
   m_DirtyAABB: 0
+--- !u!1 &6989193230368502846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8331227551882019964}
+  - component: {fileID: 6860342086379843497}
+  - component: {fileID: 1855511780884735416}
+  m_Layer: 0
+  m_Name: AttackTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8331227551882019964
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6989193230368502846}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1341839988716707081}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6860342086379843497
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6989193230368502846}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.3466051, y: 3.3395844, z: 1}
+  m_Center: {x: 0.021662742, y: 2.0866516, z: 1.16}
+--- !u!114 &1855511780884735416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6989193230368502846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e72e9654a8de49340aad91abb17260e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSo: {fileID: 11400000, guid: 9a097d6f8da4cc244948acb8eebf1fc1, type: 2}
 --- !u!1 &7511533913422173925
 GameObject:
   m_ObjectHideFlags: 0

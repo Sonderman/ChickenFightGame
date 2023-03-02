@@ -13,6 +13,7 @@ namespace Player
         {
             _animator = GetComponent<Animator>();
             _pmovcon = GetComponent<PlayerMovementController>();
+            _pmovcon.playerSo.onDie.AddListener(OnDie);
         }
 
         private void Update()
@@ -31,7 +32,7 @@ namespace Player
             if (context.performed)
             {
                 //Disables player movement.
-                _pmovcon.EnableMovement = false;
+                _pmovcon.IsMoveAllowed = false;
                 TriggerAttack();
                 _attackLeft = !_attackLeft;
             }
@@ -39,12 +40,20 @@ namespace Player
         //Enables movement when attack animation finishes
         public void OnAttackFinished()
         {
-            _pmovcon.EnableMovement = true;
+            _pmovcon.IsMoveAllowed = true;
         }
 
         private void TriggerAttack()
         {
             _animator.SetTrigger(_attackLeft ? "PunchL" : "PunchR");
+        }
+
+        private void OnDie()
+        {
+            _animator.SetTrigger("Die");
+            //_pmovcon.IsMoveAllowed = false;
+            //_pmovcon.NotInGame = true;
+            gameObject.GetComponent<BoxCollider>().enabled = false;
         }
     }
 }

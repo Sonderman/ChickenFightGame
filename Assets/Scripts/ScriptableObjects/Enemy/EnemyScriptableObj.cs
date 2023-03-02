@@ -9,10 +9,13 @@ namespace ScriptableObjects.Enemy
     public class EnemyScriptableObj : ScriptableObject
     {
         public Dictionary<int, EnemyData> Enemies = new();
+        [Header("Variables")]
         public float maxHealth = 100f;
         public float maxSpeed = 10f;
         public float attackSpeed = 50f;
+        public float damageGiven = 20f;
         public float visionRange = 5f;
+        public float scoreValue = 10f;
         public float secondsForIdleToPatrolling = 5f;
         public Vector3 aiNavigationRange = new Vector3(10f, 0f, 10f);
     }
@@ -24,7 +27,8 @@ namespace ScriptableObjects.Enemy
             Patrolling,
             Idle,
             Chasing,
-            Attack
+            Attack,
+            Die
         }
 
         private int _id;

@@ -6,6 +6,6 @@ namespace ScriptableObjects
     public class GlobalSettings : ScriptableObject
     {
         public int enemyAmount = 5;
-        public float musicVolume = 50f;
+        //public float musicVolume = 50f;
     }
 }

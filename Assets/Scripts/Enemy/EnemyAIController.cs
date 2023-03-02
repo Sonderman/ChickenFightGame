@@ -1,4 +1,6 @@
 using System.Collections;
+using Player;
+using ScriptableObjects;
 using ScriptableObjects.Enemy;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,7 +11,8 @@ namespace Enemy
     public class EnemyAIController : MonoBehaviour
     {
         private NavMeshAgent _agent;
-        [SerializeField] public EnemyScriptableObj enemySio;
+        public EnemyScriptableObj enemySo;
+        public GameManagerSo gameManagerSo;
         private Vector3 _targetVector;
         private GameObject _player;
         internal int ID;
@@ -20,7 +23,7 @@ namespace Enemy
         private void Awake()
         {
             ID = Random.Range(0, 1000);
-            enemySio.Enemies.Add(ID, new EnemyData(id: ID));
+            enemySo.Enemies.Add(ID, new EnemyData(id: ID));
         }
 
         private void Start()
@@ -32,31 +35,35 @@ namespace Enemy
 
         private void FixedUpdate()
         {
-            if (Vector3.Distance(transform.position, _player.transform.position) <= enemySio.visionRange)
+            if (_player != null&&enemySo.Enemies[ID].CurrentState!= EnemyData.States.Die )
             {
-                if (enemySio.Enemies[ID].CurrentState != EnemyData.States.Chasing &&
-                    enemySio.Enemies[ID].CurrentState != EnemyData.States.Attack)
+                if (Vector3.Distance(transform.position, _player.transform.position) <= enemySo.visionRange)
                 {
-                    enemySio.Enemies[ID].SetState(EnemyData.States.Chasing);
-                    _agent.stoppingDistance = 2f;
-                }
+                    if (enemySo.Enemies[ID].CurrentState != EnemyData.States.Chasing &&
+                        enemySo.Enemies[ID].CurrentState != EnemyData.States.Attack)
+                    {
+                        enemySo.Enemies[ID].SetState(EnemyData.States.Chasing);
+                        _agent.stoppingDistance = 2f;
+                    }
 
-                ChasePlayer();
-            }
-            else if (enemySio.Enemies[ID].CurrentState == EnemyData.States.Patrolling)
-            {
-                if (Mathf.Abs(_targetVector.x - transform.position.x) <= 1f &&
-                    Mathf.Abs(_targetVector.z - transform.position.z) <= 1f)
+                    ChasePlayer();
+                }
+                else if (enemySo.Enemies[ID].CurrentState == EnemyData.States.Patrolling)
                 {
-                    MoveEnemy(GetRandomTargetPosition(enemySio.aiNavigationRange.x, transform.position.y,
-                        enemySio.aiNavigationRange.z));
+                    if (Mathf.Abs(_targetVector.x - transform.position.x) <= 1f &&
+                        Mathf.Abs(_targetVector.z - transform.position.z) <= 1f)
+                    {
+                        SetDestination(Utilities.GetRandomTargetPosition(enemySo.aiNavigationRange.x, transform.position.y,
+                            enemySo.aiNavigationRange.z));
+                    }
+                }
+                else if (!_runOnce)
+                {
+                    _runOnce = !_runOnce;
+                    StartCoroutine(WaitForPatrolling());
                 }
             }
-            else if (!_runOnce)
-            {
-                _runOnce = !_runOnce;
-                StartCoroutine(WaitForPatrolling());
-            }
+            
         }
 
         private void OnTriggerEnter(Collider other)
@@ -76,6 +83,7 @@ namespace Enemy
                 {
                     _attackCooldown = !_attackCooldown;
                     StartCoroutine(Attack());
+                    other.transform.GetComponent<PlayerController>().OnDamageTaken(enemySo.damageGiven);
                 }
             }
         }
@@ -84,15 +92,15 @@ namespace Enemy
         {
             if (other.tag.Equals("Player"))
             {
-                enemySio.Enemies[ID].SetState(EnemyData.States.Chasing);
+                enemySo.Enemies[ID].SetState(EnemyData.States.Chasing);
                 _agent.isStopped = false;
             }
         }
 
         private IEnumerator Attack()
         {
-            enemySio.Enemies[ID].SetState(EnemyData.States.Attack);
-            yield return new WaitForSeconds(100 / enemySio.attackSpeed);
+            enemySo.Enemies[ID].SetState(EnemyData.States.Attack);
+            yield return new WaitForSeconds(100 / enemySo.attackSpeed);
             _attackCooldown = !_attackCooldown;
         }
 
@@ -103,34 +111,45 @@ namespace Enemy
 
         private IEnumerator WaitForPatrolling()
         {
-            enemySio.Enemies[ID].SetState(EnemyData.States.Idle);
+            enemySo.Enemies[ID].SetState(EnemyData.States.Idle);
             _agent.isStopped = true;
             _agent.ResetPath();
-            yield return new WaitForSeconds(enemySio.secondsForIdleToPatrolling);
-            enemySio.Enemies[ID].SetState(EnemyData.States.Patrolling);
+            yield return new WaitForSeconds(enemySo.secondsForIdleToPatrolling);
+            enemySo.Enemies[ID].SetState(EnemyData.States.Patrolling);
             _agent.isStopped = false;
             _agent.stoppingDistance = 0f;
-            MoveEnemy(GetRandomTargetPosition(enemySio.aiNavigationRange.x, transform.position.y,
-                enemySio.aiNavigationRange.z));
+            SetDestination(Utilities.GetRandomTargetPosition(enemySo.aiNavigationRange.x, transform.position.y,
+                enemySo.aiNavigationRange.z));
             _runOnce = !_runOnce;
         }
 
         private void ApplySettings()
         {
             _targetVector = transform.position;
-            enemySio.Enemies[ID].Health = enemySio.maxHealth;
-            _agent.speed = enemySio.maxSpeed;
+            enemySo.Enemies[ID].Health = enemySo.maxHealth;
+            _agent.speed = enemySo.maxSpeed;
         }
 
-        private void MoveEnemy(Vector3 vector)
+        private void SetDestination(Vector3 vector)
         {
             _targetVector = vector;
             _agent.SetDestination(vector);
         }
 
-        private Vector3 GetRandomTargetPosition(float rangeX, float axisY, float rangeZ)
+        public void OnDamageTaken(float damage)
         {
-            return new Vector3(Random.Range(-rangeX, rangeX), axisY, Random.Range(-rangeZ, rangeZ));
+            enemySo.Enemies[ID].Health -= damage;
+            if (enemySo.Enemies[ID].Health <= 0f)
+            {
+                gameManagerSo.OnEnemyKilled?.Invoke(enemySo.scoreValue);
+                enemySo.Enemies[ID].SetState(EnemyData.States.Die);
+                gameObject.GetComponent<BoxCollider>().enabled = false;
+            }
+        }
+
+        public void Die()
+        {
+            Destroy(gameObject);
         }
     }
 }

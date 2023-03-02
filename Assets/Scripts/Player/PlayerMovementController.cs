@@ -1,36 +1,35 @@
+using ScriptableObjects;
 using ScriptableObjects.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 
 namespace Player
 {
     public class PlayerMovementController : MonoBehaviour
     {
-        [SerializeField] public PlayerScriptableObj playerSio;
-        [SerializeField] public Transform mainCamTransform;
+        public PlayerScriptableObj playerSo;
+        public GameManagerSo gameManagerSo;
+        public Transform mainCamTransform;
         private Vector3 _movementInput;
         internal bool IsMoving;
-        internal bool EnableMovement;
-
-        //private Keyboard _keyboard = Keyboard.current;
+        internal bool IsMoveAllowed;
+        internal bool NotInGame;
+        
         private Rigidbody _rigidbody;
         private float _turnSmoothVelocity;
 
         void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            EnableMovement = true;
+            IsMoveAllowed = true;
+            gameManagerSo.OnStateChanged += ToggleMovementAndMouseLook;
         }
 
         private void Update()
         {
             //Checks movement for movement animation
-            if (_movementInput.magnitude >= 1f)
-            {
-                IsMoving = true;
-            }
-            else
-                IsMoving = false;
+            IsMoving = _movementInput.magnitude >= 1f;
         }
 
         void FixedUpdate()
@@ -45,9 +44,9 @@ namespace Player
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-                if (EnableMovement)
+                if (IsMoveAllowed)
                 {
-                    _rigidbody.MovePosition(moveDir.normalized * (playerSio.speed) / 10 + transform.position);
+                    _rigidbody.MovePosition(moveDir.normalized * (playerSo.speed) / 10 + transform.position);
                 }
             }
         }
@@ -56,7 +55,23 @@ namespace Player
         public void OnMove(InputAction.CallbackContext context)
         {
             Vector3 move = new Vector3(context.ReadValue<Vector2>().x, 0f, context.ReadValue<Vector2>().y);
-            _movementInput = move;
+            if (!NotInGame)
+            {
+                _movementInput = move;
+            }
+        }
+
+        private void ToggleMovementAndMouseLook(GameManagerSo.GameStates state)
+        {
+            if (state == GameManagerSo.GameStates.InGame)
+            {
+                NotInGame = false;
+            }
+            else
+            {
+                NotInGame = true;
+            }
+            
         }
     }
 }

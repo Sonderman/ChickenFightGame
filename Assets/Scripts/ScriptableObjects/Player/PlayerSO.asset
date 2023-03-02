@@ -10,7 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3053c32ad6c0f754e92459a0c0bed706, type: 3}
-  m_Name: PlayerSIO
+  m_Name: PlayerSO
   m_EditorClassIdentifier: 
+  maxHealth: 100
   health: 100
-  speed: 2.5
+  speed: 2.7
+  killScore: 0
+  damageGiven: 50

@@ -13,7 +13,7 @@ namespace Enemy
         {
             _enemyAI = GetComponent<EnemyAIController>();
             _animator = GetComponent<Animator>();
-            _enemyAI.enemySio.Enemies[_enemyAI.ID].AnimationChangeEvent += OnAnimationChanged;
+            _enemyAI.enemySo.Enemies[_enemyAI.ID].AnimationChangeEvent += OnAnimationChanged;
         }
 
         private void OnAnimationChanged(EnemyData.States state)
@@ -34,6 +34,11 @@ namespace Enemy
                 _animator.SetTrigger(_attackLeft ? "PunchL" : "PunchR");
                 _animator.SetBool("IsRunning", false);
                 _attackLeft = !_attackLeft;
+            }
+
+            if (state == EnemyData.States.Die)
+            {
+                _animator.SetTrigger("Die");
             }
         }
     }
