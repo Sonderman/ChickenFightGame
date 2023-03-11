@@ -8,36 +8,39 @@ namespace Managers
 {
     public class GameManager : MonoBehaviour
     {
-         public GameManagerSo gameManagerSo;
-         public GlobalSettings globalSettings;
+         private  GameManagerSo _gameManagerSo;
+         private  GlobalSettings _globalSettings;
+         private  EnemyScriptableObj _enemySo;
          public GameObject enemyPrefab;
-         public EnemyScriptableObj enemySo;
          private int _activeEnemyCount;
 
          private void Awake()
          {
-             gameManagerSo.Reset();
-             enemySo.Reset();
+             _gameManagerSo = Locator.Instance.gameManagerSo;
+             _globalSettings = Locator.Instance.globalSettingsSo;
+             _enemySo = Locator.Instance.enemySo;
+             _gameManagerSo.Reset();
+             _enemySo.Reset();
          }
 
          private void Start()
         {
-            gameManagerSo.currentGameState = GameManagerSo.GameStates.InGame;
-            SpawnEnemies(globalSettings.enemyAmount);
-            gameManagerSo.OnEnemyKilled += WinCheck;
+            _gameManagerSo.currentGameState = GameManagerSo.GameStates.InGame;
+            SpawnEnemies(_globalSettings.enemyAmount);
+            _gameManagerSo.OnEnemyKilled += WinCheck;
         }
 
         private void Update()
         {
             if (Keyboard.current.escapeKey.wasReleasedThisFrame)
             {
-                if (gameManagerSo.currentGameState == GameManagerSo.GameStates.Pause)
+                if (_gameManagerSo.currentGameState == GameManagerSo.GameStates.Pause)
                 {
                     ResumeGame();
                 }
                 else
                 {
-                    gameManagerSo.ChangeState(GameManagerSo.GameStates.Pause);
+                    _gameManagerSo.ChangeState(GameManagerSo.GameStates.Pause);
                     Time.timeScale = 0f;
                 }
             }
@@ -45,7 +48,7 @@ namespace Managers
 
         public void ResumeGame()
         {
-            gameManagerSo.ChangeState(GameManagerSo.GameStates.InGame);
+            _gameManagerSo.ChangeState(GameManagerSo.GameStates.InGame);
             Time.timeScale = 1f;
         }
 
@@ -53,8 +56,8 @@ namespace Managers
         {
             for (int i = 0; i < amount; i++)
             {
-                Instantiate(enemyPrefab, Utilities.GetRandomTargetPosition(enemySo.aiNavigationRange.x, transform.position.y,
-                    enemySo.aiNavigationRange.z), Quaternion.identity);
+                Instantiate(enemyPrefab, Utilities.GetRandomTargetPosition(Locator.Instance.enemySo.aiNavigationRange.x, transform.position.y,
+                    Locator.Instance.enemySo.aiNavigationRange.z), Quaternion.identity);
             }
 
             _activeEnemyCount = amount;
@@ -64,7 +67,7 @@ namespace Managers
         {
             if (--_activeEnemyCount <= 0)
             {
-                gameManagerSo.ChangeState(GameManagerSo.GameStates.LevelEnd);
+                _gameManagerSo.ChangeState(GameManagerSo.GameStates.LevelEnd);
             }
         }
 

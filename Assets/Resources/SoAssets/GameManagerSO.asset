@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: GameManagerSO
   m_EditorClassIdentifier: 
   currentGameState: 0
+  playerSo: {fileID: 11400000, guid: 9a097d6f8da4cc244948acb8eebf1fc1, type: 2}
+  enemySo: {fileID: 11400000, guid: dac65357afaed5a4dbabdd64b628d85a, type: 2}

@@ -8,22 +8,27 @@ namespace Player
 {
     public class PlayerMovementController : MonoBehaviour
     {
-        public PlayerScriptableObj playerSo;
-        public GameManagerSo gameManagerSo;
+        private PlayerScriptableObj _playerSo;
+        private GameManagerSo _gameManagerSo;
         public Transform mainCamTransform;
         private Vector2 _movementInput;
         internal bool IsMoving;
         internal bool IsMoveAllowed;
         internal bool NotInGame;
-        
         private Rigidbody _rigidbody;
         private float _turnSmoothVelocity;
+
+        private void Awake()
+        {
+            _playerSo = Locator.Instance.playerSo;
+            _gameManagerSo = Locator.Instance.gameManagerSo;
+        }
 
         void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
             IsMoveAllowed = true;
-            gameManagerSo.OnStateChanged += ToggleMovementAndMouseLook;
+            _gameManagerSo.OnStateChanged += ToggleMovementAndMouseLook;
         }
 
         private void Update()
@@ -46,7 +51,7 @@ namespace Player
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                 if (IsMoveAllowed)
                 {
-                    _rigidbody.MovePosition(moveDir.normalized * (playerSo.speed) / 10 + transform.position);
+                    _rigidbody.MovePosition(moveDir.normalized * (_playerSo.speed) / 10 + transform.position);
                 }
             }
         }

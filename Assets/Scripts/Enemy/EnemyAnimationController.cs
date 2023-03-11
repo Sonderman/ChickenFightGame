@@ -13,7 +13,7 @@ namespace Enemy
         {
             _enemyAI = GetComponent<EnemyAIController>();
             _animator = GetComponent<Animator>();
-            _enemyAI.enemySo.Enemies[_enemyAI.ID].AnimationChangeEvent += OnAnimationChanged;
+            Locator.Instance.enemySo.Enemies[_enemyAI.ID].AnimationChangeEvent += OnAnimationChanged;
         }
 
         private void OnAnimationChanged(EnemyData.States state)

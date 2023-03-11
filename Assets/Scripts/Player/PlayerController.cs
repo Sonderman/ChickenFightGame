@@ -7,41 +7,43 @@ namespace Player
 {
     public class PlayerController : MonoBehaviour
     {
-        public PlayerScriptableObj playerSo;
-        public GameManagerSo gameManagerSo;
+        private PlayerScriptableObj _playerSo;
+        private GameManagerSo _gameManagerSo;
 
         private void Awake()
         {
-            playerSo.Initialize();
+            _playerSo = Locator.Instance.playerSo;
+            _gameManagerSo = Locator.Instance.gameManagerSo;
+            _playerSo.Initialize();
         }
 
         private void Start()
         {
-            gameManagerSo.OnEnemyKilled += TakeScore;
+            _gameManagerSo.OnEnemyKilled += TakeScore;
         }
 
         public void OnDamageTaken(float damage)
         {
-            playerSo.health -= damage;
-            if (playerSo.health <= 0f)
+            _playerSo.health -= damage;
+            if (_playerSo.health <= 0f)
             {
-                playerSo.OnDie?.Invoke();
+                _playerSo.OnDie?.Invoke();
                 gameObject.GetComponent<Rigidbody>().isKinematic = true;
             }
 
-            playerSo.OnUIUpdateNeeded?.Invoke();
+            _playerSo.OnUIUpdateNeeded?.Invoke();
         }
 
         private void TakeScore(float score)
         {
-            playerSo.killScore += score;
-            playerSo.OnUIUpdateNeeded?.Invoke();
+            _playerSo.killScore += score;
+            _playerSo.OnUIUpdateNeeded?.Invoke();
         }
 
         public void Die()
         {
             Destroy(gameObject);
-            gameManagerSo.ChangeState(GameManagerSo.GameStates.GameOver);
+            _gameManagerSo.ChangeState(GameManagerSo.GameStates.GameOver);
         }
     }
 }

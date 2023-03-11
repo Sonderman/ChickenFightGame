@@ -8,9 +8,8 @@ namespace Managers
 {
     public class UIManager : MonoBehaviour
     {
-        [Header("ScriptableObjects")]
-        [SerializeField] private PlayerScriptableObj playerSo;
-        [SerializeField] private GameManagerSo gameManagerSo;
+        private GameManagerSo _gameManagerSo;
+        private PlayerScriptableObj _playerSo;
         [Header("InGameUI")] public GameObject inGamePanel;
         public TextMeshProUGUI inGameScoreText;
         public Slider healthBarSlider;
@@ -22,21 +21,27 @@ namespace Managers
         [Header("LevelEndUI")] public GameObject levelEndPanel;
         public TextMeshProUGUI levelEndScoreText;
 
+        private void Awake()
+        {
+            _gameManagerSo = Locator.Instance.gameManagerSo;
+            _playerSo = Locator.Instance.playerSo;
+        }
+
         private void Start()
         {
-            healthBarSlider.maxValue = playerSo.maxHealth;
-            healthBarSlider.value = playerSo.maxHealth;
+            healthBarSlider.maxValue = _playerSo.maxHealth;
+            healthBarSlider.value = _playerSo.maxHealth;
             healthBarImage.color = healthBarGradient.Evaluate(1f);
-            playerSo.OnUIUpdateNeeded += UpdateInGameUI;
-            gameManagerSo.OnStateChanged += OnStateChange;
+            _playerSo.OnUIUpdateNeeded += UpdateInGameUI;
+            _gameManagerSo.OnStateChanged += OnStateChange;
             inGamePanel.SetActive(true);
             UpdateInGameUI();
         }
 
         private void UpdateInGameUI()
         {
-            inGameScoreText.text = playerSo.killScore.ToString();
-            healthBarSlider.value = playerSo.health;
+            inGameScoreText.text = _playerSo.killScore.ToString();
+            healthBarSlider.value = _playerSo.health;
             healthBarImage.color = healthBarGradient.Evaluate(healthBarSlider.normalizedValue);
         }
 
@@ -44,10 +49,18 @@ namespace Managers
         {
             switch (state)
             {
-                case GameManagerSo.GameStates.InGame : OnInGameUI(); break;
-                case GameManagerSo.GameStates.Pause : OnPauseUI(); break;
-                case GameManagerSo.GameStates.GameOver : OnGameOverUI(); break;
-                case GameManagerSo.GameStates.LevelEnd : OnLevelEndUI(); break;
+                case GameManagerSo.GameStates.InGame:
+                    OnInGameUI();
+                    break;
+                case GameManagerSo.GameStates.Pause:
+                    OnPauseUI();
+                    break;
+                case GameManagerSo.GameStates.GameOver:
+                    OnGameOverUI();
+                    break;
+                case GameManagerSo.GameStates.LevelEnd:
+                    OnLevelEndUI();
+                    break;
             }
         }
 
@@ -56,6 +69,7 @@ namespace Managers
             pausePanel.SetActive(false);
             inGamePanel.SetActive(true);
         }
+
         private void OnPauseUI()
         {
             gameOverPanel.SetActive(false);
@@ -66,14 +80,14 @@ namespace Managers
         {
             inGamePanel.SetActive(false);
             gameOverPanel.SetActive(true);
-            gameOverScoreText.text = playerSo.killScore.ToString();
+            gameOverScoreText.text = _playerSo.killScore.ToString();
         }
 
         private void OnLevelEndUI()
         {
             inGamePanel.SetActive(false);
             levelEndPanel.SetActive(true);
-            levelEndScoreText.text = playerSo.killScore.ToString();
+            levelEndScoreText.text = _playerSo.killScore.ToString();
         }
     }
 }

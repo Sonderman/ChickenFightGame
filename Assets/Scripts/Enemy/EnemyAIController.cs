@@ -11,8 +11,8 @@ namespace Enemy
     public class EnemyAIController : MonoBehaviour
     {
         private NavMeshAgent _agent;
-        public EnemyScriptableObj enemySo;
-        public GameManagerSo gameManagerSo;
+        private EnemyScriptableObj _enemySo;
+        private GameManagerSo _gameManagerSo;
         private Vector3 _targetVector;
         private GameObject _player;
         internal int ID;
@@ -22,8 +22,10 @@ namespace Enemy
 
         private void Awake()
         {
+            _enemySo = Locator.Instance.enemySo;
+            _gameManagerSo = Locator.Instance.gameManagerSo;
             ID = Random.Range(0, 1000);
-            enemySo.Enemies.Add(ID, new EnemyData(id: ID));
+            _enemySo.Enemies.Add(ID, new EnemyData(id: ID));
         }
 
         private void Start()
@@ -35,26 +37,27 @@ namespace Enemy
 
         private void FixedUpdate()
         {
-            if (_player != null&&enemySo.Enemies[ID].CurrentState!= EnemyData.States.Die )
+            if (_player != null && _enemySo.Enemies[ID].CurrentState != EnemyData.States.Die)
             {
-                if (Vector3.Distance(transform.position, _player.transform.position) <= enemySo.visionRange)
+                if (Vector3.Distance(transform.position, _player.transform.position) <= _enemySo.visionRange)
                 {
-                    if (enemySo.Enemies[ID].CurrentState != EnemyData.States.Chasing &&
-                        enemySo.Enemies[ID].CurrentState != EnemyData.States.Attack)
+                    if (_enemySo.Enemies[ID].CurrentState != EnemyData.States.Chasing &&
+                        _enemySo.Enemies[ID].CurrentState != EnemyData.States.Attack)
                     {
-                        enemySo.Enemies[ID].SetState(EnemyData.States.Chasing);
+                        _enemySo.Enemies[ID].SetState(EnemyData.States.Chasing);
                         _agent.stoppingDistance = 2f;
                     }
 
                     ChasePlayer();
                 }
-                else if (enemySo.Enemies[ID].CurrentState == EnemyData.States.Patrolling)
+                else if (_enemySo.Enemies[ID].CurrentState == EnemyData.States.Patrolling)
                 {
                     if (Mathf.Abs(_targetVector.x - transform.position.x) <= 1f &&
                         Mathf.Abs(_targetVector.z - transform.position.z) <= 1f)
                     {
-                        SetDestination(Utilities.GetRandomTargetPosition(enemySo.aiNavigationRange.x, transform.position.y,
-                            enemySo.aiNavigationRange.z));
+                        SetDestination(Utilities.GetRandomTargetPosition(_enemySo.aiNavigationRange.x,
+                            transform.position.y,
+                            _enemySo.aiNavigationRange.z));
                     }
                 }
                 else if (!_runOnce)
@@ -63,7 +66,6 @@ namespace Enemy
                     StartCoroutine(WaitForPatrolling());
                 }
             }
-            
         }
 
         private void OnTriggerEnter(Collider other)
@@ -83,7 +85,7 @@ namespace Enemy
                 {
                     _attackCooldown = !_attackCooldown;
                     StartCoroutine(Attack());
-                    other.transform.GetComponent<PlayerController>().OnDamageTaken(enemySo.damageGiven);
+                    other.transform.GetComponent<PlayerController>().OnDamageTaken(_enemySo.damageGiven);
                 }
             }
         }
@@ -92,15 +94,15 @@ namespace Enemy
         {
             if (other.tag.Equals("Player"))
             {
-                enemySo.Enemies[ID].SetState(EnemyData.States.Chasing);
+                _enemySo.Enemies[ID].SetState(EnemyData.States.Chasing);
                 _agent.isStopped = false;
             }
         }
 
         private IEnumerator Attack()
         {
-            enemySo.Enemies[ID].SetState(EnemyData.States.Attack);
-            yield return new WaitForSeconds(100 / enemySo.attackSpeed);
+            _enemySo.Enemies[ID].SetState(EnemyData.States.Attack);
+            yield return new WaitForSeconds(100 / _enemySo.attackSpeed);
             _attackCooldown = !_attackCooldown;
         }
 
@@ -111,23 +113,23 @@ namespace Enemy
 
         private IEnumerator WaitForPatrolling()
         {
-            enemySo.Enemies[ID].SetState(EnemyData.States.Idle);
+            _enemySo.Enemies[ID].SetState(EnemyData.States.Idle);
             _agent.isStopped = true;
             _agent.ResetPath();
-            yield return new WaitForSeconds(enemySo.secondsForIdleToPatrolling);
-            enemySo.Enemies[ID].SetState(EnemyData.States.Patrolling);
+            yield return new WaitForSeconds(_enemySo.secondsForIdleToPatrolling);
+            _enemySo.Enemies[ID].SetState(EnemyData.States.Patrolling);
             _agent.isStopped = false;
             _agent.stoppingDistance = 0f;
-            SetDestination(Utilities.GetRandomTargetPosition(enemySo.aiNavigationRange.x, transform.position.y,
-                enemySo.aiNavigationRange.z));
+            SetDestination(Utilities.GetRandomTargetPosition(_enemySo.aiNavigationRange.x, transform.position.y,
+                _enemySo.aiNavigationRange.z));
             _runOnce = !_runOnce;
         }
 
         private void ApplySettings()
         {
             _targetVector = transform.position;
-            enemySo.Enemies[ID].Health = enemySo.maxHealth;
-            _agent.speed = enemySo.maxSpeed;
+            _enemySo.Enemies[ID].Health = _enemySo.maxHealth;
+            _agent.speed = _enemySo.maxSpeed;
         }
 
         private void SetDestination(Vector3 vector)
@@ -138,11 +140,11 @@ namespace Enemy
 
         public void OnDamageTaken(float damage)
         {
-            enemySo.Enemies[ID].Health -= damage;
-            if (enemySo.Enemies[ID].Health <= 0f)
+            _enemySo.Enemies[ID].Health -= damage;
+            if (_enemySo.Enemies[ID].Health <= 0f)
             {
-                gameManagerSo.OnEnemyKilled?.Invoke(enemySo.scoreValue);
-                enemySo.Enemies[ID].SetState(EnemyData.States.Die);
+                _gameManagerSo.OnEnemyKilled?.Invoke(_enemySo.scoreValue);
+                _enemySo.Enemies[ID].SetState(EnemyData.States.Die);
                 gameObject.GetComponent<BoxCollider>().enabled = false;
             }
         }
