@@ -11,7 +11,7 @@ namespace Player
         public PlayerScriptableObj playerSo;
         public GameManagerSo gameManagerSo;
         public Transform mainCamTransform;
-        private Vector3 _movementInput;
+        private Vector2 _movementInput;
         internal bool IsMoving;
         internal bool IsMoveAllowed;
         internal bool NotInGame;
@@ -36,7 +36,7 @@ namespace Player
         {
             if (_movementInput.magnitude >= 1f)
             {
-                float targetAngle = Mathf.Atan2(_movementInput.x, _movementInput.z) * Mathf.Rad2Deg +
+                float targetAngle = Mathf.Atan2(_movementInput.x, _movementInput.y) * Mathf.Rad2Deg +
                                     mainCamTransform.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity,
                     0.1f);
@@ -54,10 +54,10 @@ namespace Player
         //Reads Inputs
         public void OnMove(InputAction.CallbackContext context)
         {
-            Vector3 move = new Vector3(context.ReadValue<Vector2>().x, 0f, context.ReadValue<Vector2>().y);
+            Vector2 input = new Vector2(context.ReadValue<Vector2>().x, context.ReadValue<Vector2>().y);
             if (!NotInGame)
             {
-                _movementInput = move;
+                _movementInput = input;
             }
         }
 

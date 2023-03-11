@@ -8,7 +8,6 @@ namespace ScriptableObjects
     {
         public enum GameStates
         {
-            Menu,
             InGame,
             Pause,
             GameOver,
@@ -16,14 +15,20 @@ namespace ScriptableObjects
         }
         public GameStates currentGameState;
 
+        [Header("Events")] 
+        public UnityAction<GameStates> OnStateChanged;
+        public UnityAction<float> OnEnemyKilled;
+        
         public void ChangeState(GameStates state)
         {
             currentGameState = state;
             OnStateChanged?.Invoke(state);
         }
 
-        [Header("Events")] 
-        public UnityAction<GameStates> OnStateChanged;
-        public UnityAction<float> OnEnemyKilled;
+        public void Reset()
+        {
+            OnStateChanged = null;
+            OnEnemyKilled = null;
+        }
     }
 }

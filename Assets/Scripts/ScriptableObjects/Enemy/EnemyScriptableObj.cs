@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,6 +19,11 @@ namespace ScriptableObjects.Enemy
         public float scoreValue = 10f;
         public float secondsForIdleToPatrolling = 5f;
         public Vector3 aiNavigationRange = new Vector3(10f, 0f, 10f);
+
+        public void Reset()
+        {
+            Enemies.Clear();
+        }
     }
 
     public class EnemyData

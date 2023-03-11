@@ -24,11 +24,10 @@ namespace Managers
 
         private void Start()
         {
-            
             healthBarSlider.maxValue = playerSo.maxHealth;
             healthBarSlider.value = playerSo.maxHealth;
             healthBarImage.color = healthBarGradient.Evaluate(1f);
-            playerSo.onUIUpdateNeeded.AddListener(UpdateInGameUI);
+            playerSo.OnUIUpdateNeeded += UpdateInGameUI;
             gameManagerSo.OnStateChanged += OnStateChange;
             inGamePanel.SetActive(true);
             UpdateInGameUI();

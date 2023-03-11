@@ -13,7 +13,7 @@ namespace Player
         {
             _animator = GetComponent<Animator>();
             _pmovcon = GetComponent<PlayerMovementController>();
-            _pmovcon.playerSo.onDie.AddListener(OnDie);
+            _pmovcon.playerSo.OnDie += OnDie;
         }
 
         private void Update()

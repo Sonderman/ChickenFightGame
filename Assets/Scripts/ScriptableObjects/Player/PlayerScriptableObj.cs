@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace ScriptableObjects.Player
 {
-    [CreateAssetMenu(fileName = "PlayerSIO", menuName = "ScriptableObjects/Player")]
+    [CreateAssetMenu(fileName = "PlayerSO", menuName = "ScriptableObjects/Player")]
     public class PlayerScriptableObj : ScriptableObject
     {
         [Header("Variables")] public float maxHealth = 100f;
@@ -15,13 +15,15 @@ namespace ScriptableObjects.Player
         public float damageGiven;
 
         //---Events---
-        public UnityEvent onUIUpdateNeeded;
-        public UnityEvent onDie;
+        public UnityAction OnUIUpdateNeeded;
+        public UnityAction OnDie;
 
-        public void InitializePlayer()
+        public void Initialize()
         {
             health = maxHealth;
             killScore = 0f;
+            OnUIUpdateNeeded = null;
+            OnDie = null;
         }
     }
 }

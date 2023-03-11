@@ -9,10 +9,14 @@ namespace Player
     {
         public PlayerScriptableObj playerSo;
         public GameManagerSo gameManagerSo;
-        
+
+        private void Awake()
+        {
+            playerSo.Initialize();
+        }
+
         private void Start()
         {
-            playerSo.InitializePlayer();
             gameManagerSo.OnEnemyKilled += TakeScore;
         }
 
@@ -21,16 +25,17 @@ namespace Player
             playerSo.health -= damage;
             if (playerSo.health <= 0f)
             {
-                playerSo.onDie?.Invoke();
+                playerSo.OnDie?.Invoke();
                 gameObject.GetComponent<Rigidbody>().isKinematic = true;
             }
-            playerSo.onUIUpdateNeeded?.Invoke();
+
+            playerSo.OnUIUpdateNeeded?.Invoke();
         }
 
         private void TakeScore(float score)
         {
             playerSo.killScore += score;
-            playerSo.onUIUpdateNeeded?.Invoke();
+            playerSo.OnUIUpdateNeeded?.Invoke();
         }
 
         public void Die()

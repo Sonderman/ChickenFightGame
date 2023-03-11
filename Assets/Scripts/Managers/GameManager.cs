@@ -14,7 +14,13 @@ namespace Managers
          public EnemyScriptableObj enemySo;
          private int _activeEnemyCount;
 
-        private void Start()
+         private void Awake()
+         {
+             gameManagerSo.Reset();
+             enemySo.Reset();
+         }
+
+         private void Start()
         {
             gameManagerSo.currentGameState = GameManagerSo.GameStates.InGame;
             SpawnEnemies(globalSettings.enemyAmount);
