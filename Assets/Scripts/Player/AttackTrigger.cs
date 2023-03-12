@@ -1,5 +1,6 @@
 using System.Collections;
 using Enemy;
+using Managers;
 using ScriptableObjects.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -32,6 +33,7 @@ namespace Player
                 {
                     other.GetComponent<EnemyAIController>().OnDamageTaken(playerSo.damageGiven);
                     _attackPerforming = false;
+                    AudioManager.Instance.PlayPunchClip();
                 }
             }
         }

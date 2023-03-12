@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9be589b125b9ba4c900ca18f44a30ac, type: 3}
+  m_Name: ClipsDataSo
+  m_EditorClassIdentifier: 
+  puchClip: {fileID: 8300000, guid: 229033978b785d64c83f0ecac1b93225, type: 3}
+  playerDamageTakenClip: {fileID: 8300000, guid: 3021fc40665a79042a8a4b123558a7f1, type: 3}
+  takingScoreClip: {fileID: 8300000, guid: afed0c304225f8a45b967f2b029f6038, type: 3}
+  levelFailClip: {fileID: 8300000, guid: 57efbc217f5ec854a9e495f0a1d29f78, type: 3}
+  levelCompleteClip: {fileID: 8300000, guid: 45f2011887b8d0249943050f3a45065e, type: 3}

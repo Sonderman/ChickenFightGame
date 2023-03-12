@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: PlayerSO
   m_EditorClassIdentifier: 
   maxHealth: 100
-  health: 100
+  health: 60
   speed: 2.7
-  killScore: 0
+  killScore: 50
   damageGiven: 50
+  isAnimationsAllowed: 1

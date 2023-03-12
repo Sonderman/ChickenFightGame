@@ -1,3 +1,4 @@
+using Managers;
 using ScriptableObjects;
 using ScriptableObjects.Player;
 using UnityEngine;
@@ -25,17 +26,24 @@ namespace Player
         public void OnDamageTaken(float damage)
         {
             _playerSo.health -= damage;
+            _playerSo.OnUIUpdateNeeded?.Invoke();
             if (_playerSo.health <= 0f)
             {
+                AudioManager.Instance.PlayLevelFailedClip();
                 _playerSo.OnDie?.Invoke();
                 gameObject.GetComponent<Rigidbody>().isKinematic = true;
             }
+            else
+            {
+                AudioManager.Instance.PlayPlayerDamageTaken();
+            }
 
-            _playerSo.OnUIUpdateNeeded?.Invoke();
+            
         }
 
         private void TakeScore(float score)
         {
+            AudioManager.Instance.PlayTakingScoreClip();
             _playerSo.killScore += score;
             _playerSo.OnUIUpdateNeeded?.Invoke();
         }

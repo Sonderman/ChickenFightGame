@@ -67,6 +67,7 @@ namespace Managers
         {
             if (--_activeEnemyCount <= 0)
             {
+                AudioManager.Instance.PlayLevelComplatedClip();
                 _gameManagerSo.ChangeState(GameManagerSo.GameStates.LevelEnd);
             }
         }
