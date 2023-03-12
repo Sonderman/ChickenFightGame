@@ -40,6 +40,7 @@ namespace ScriptableObjects.Enemy
         public float Health;
         public States CurrentState = States.Idle;
         public UnityAction<States> AnimationChangeEvent;
+        public UnityAction UIUpdateNeeded;
 
         public EnemyData(int id)
         {

@@ -14,22 +14,18 @@ namespace Player
             _animator = GetComponent<Animator>();
             _pmovcon = GetComponent<PlayerMovementController>();
             Locator.Instance.playerSo.OnDie += OnDie;
+            Locator.Instance.playerSo.isAnimationsAllowed = true;
         }
 
         private void Update()
         {
-            if (_pmovcon.IsMoving)
-            {
-                _animator.SetBool("isRunning", true);
-            }
-            else
-                _animator.SetBool("isRunning", false);
+            _animator.SetBool("isRunning", _pmovcon.IsMoving);
         }
 
         public void OnMouseClick(InputAction.CallbackContext context)
         {
             
-            if (context.performed)
+            if (context.performed && Locator.Instance.playerSo.isAnimationsAllowed)
             {
                 //Disables player movement.
                 _pmovcon.IsMoveAllowed = false;
@@ -51,6 +47,7 @@ namespace Player
         private void OnDie()
         {
             _animator.SetTrigger("Die");
+            Locator.Instance.playerSo.isAnimationsAllowed = false;
             //_pmovcon.IsMoveAllowed = false;
             //_pmovcon.NotInGame = true;
             gameObject.GetComponent<BoxCollider>().enabled = false;

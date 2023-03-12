@@ -141,6 +141,7 @@ namespace Enemy
         public void OnDamageTaken(float damage)
         {
             _enemySo.Enemies[ID].Health -= damage;
+            _enemySo.Enemies[ID].UIUpdateNeeded?.Invoke();
             if (_enemySo.Enemies[ID].Health <= 0f)
             {
                 _gameManagerSo.OnEnemyKilled?.Invoke(_enemySo.scoreValue);

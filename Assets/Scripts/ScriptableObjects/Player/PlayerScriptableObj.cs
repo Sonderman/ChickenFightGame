@@ -11,8 +11,8 @@ namespace ScriptableObjects.Player
         public float health;
         public float speed = 1f;
         public float killScore;
-
         public float damageGiven;
+        public bool isAnimationsAllowed = true;
 
         //---Events---
         public UnityAction OnUIUpdateNeeded;

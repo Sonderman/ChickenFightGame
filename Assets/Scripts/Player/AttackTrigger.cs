@@ -12,7 +12,7 @@ namespace Player
         public PlayerScriptableObj playerSo;
         public void OnMouseClick(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (context.started && Locator.Instance.playerSo.isAnimationsAllowed)
             {
                 StartCoroutine(AttackPerformer());
             }
